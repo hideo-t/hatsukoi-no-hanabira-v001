@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>初恋の花びら</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a2e;
+      --text-primary: #e0ddd5;
+      --text-secondary: #8a8a9a;
+      --accent: #4a9eff;
+      --accent-dim: #2a5a9a;
+      --gold: #c4a35a;
+      --chapter-border: #2a2a3e;
+      --serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+      --sans: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.95;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 100px 20px 80px;
+      background: linear-gradient(180deg, #1a2a4a 0%, #0f1a2f 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(120,180,255,0.15) 0%, transparent 70%);
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      text-shadow: 0 2px 20px rgba(100,160,255,0.3);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .hero-sub {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: #b0c4de;
+      letter-spacing: 0.15em;
+    }
+    .hero-line {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 28px auto 0;
+    }
+
+    /* ─── Navigation ─── */
+    .nav-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--chapter-border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      overflow-x: auto;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+    }
+    .nav-bar .nav-title {
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+    .nav-bar a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .nav-bar a:hover {
+      color: var(--accent);
+      background: rgba(74,158,255,0.1);
+    }
+
+    /* ─── TOC ─── */
+    .toc {
+      max-width: 700px;
+      margin: 60px auto 40px;
+      padding: 0 20px;
+    }
+    .toc h3 {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .toc-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 18px;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-left: 2px solid var(--chapter-border);
+      transition: all 0.25s;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+    }
+    .toc-item:hover {
+      border-color: var(--accent);
+      background: rgba(74,158,255,0.04);
+      padding-left: 24px;
+    }
+    .toc-num {
+      font-size: 0.75rem;
+      color: var(--accent-dim);
+      font-weight: 700;
+      min-width: 20px;
+    }
+
+    /* ─── Characters ─── */
+    .characters {
+      max-width: 700px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+    }
+    .characters h3 {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .char-card {
+      background: var(--bg-card);
+      border: 1px solid var(--chapter-border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .char-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .char-role {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .char-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── Divider ─── */
+    .section-divider {
+      width: 40px; height: 1px;
+      background: var(--chapter-border);
+      margin: 0 auto;
+    }
+
+    /* ─── Chapter ─── */
+    .chapter {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      border-top: 1px solid var(--chapter-border);
+    }
+    .chapter-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .chapter-number {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--accent-dim);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .chapter-title {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .chapter-image {
+      margin: 0 -20px 40px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--chapter-border);
+    }
+    .chapter-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.92;
+    }
+    .chapter-body p {
+      margin-bottom: 1.2em;
+      text-indent: 1em;
+      text-align: justify;
+    }
+    .chapter-body p:empty {
+      display: none;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      padding: 60px 20px;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--chapter-border);
+    }
+
+    /* ─── Reading mode toggle ─── */
+    .mode-toggle {
+      position: fixed; bottom: 20px; right: 20px; z-index: 200;
+      background: var(--bg-card);
+      border: 1px solid var(--chapter-border);
+      color: var(--text-secondary);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+
+    /* --- TTS Read Aloud --- */
+    .tts-fab {
+      position: fixed; bottom: 80px; right: 20px; z-index: 200;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); color: #fff; border: none;
+      font-size: 22px; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tts-fab:hover { transform: scale(1.1); }
+    .tts-fab.speaking { background: #e74c3c; animation: tts-pulse 1.5s infinite; }
+    @keyframes tts-pulse {
+      0%,100% { box-shadow: 0 4px 16px rgba(231,76,60,0.4); }
+      50% { box-shadow: 0 4px 24px rgba(231,76,60,0.7); }
+    }
+    .tts-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(20,20,30,0.95); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--chapter-border);
+      padding: 10px 16px; display: none;
+      align-items: center; gap: 10px;
+      font-family: var(--sans); font-size: 0.85rem;
+    }
+    .tts-bar.active { display: flex; flex-wrap: wrap; }
+    .tts-bar button {
+      background: none; border: 1px solid var(--text-secondary);
+      color: var(--text-primary); border-radius: 6px;
+      padding: 6px 12px; cursor: pointer; font-size: 0.8rem;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .tts-bar button:hover { border-color: var(--accent); color: var(--accent); }
+    .tts-bar .tts-info {
+      flex: 1; color: var(--text-secondary);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      min-width: 80px;
+    }
+    .tts-bar .tts-speed {
+      display: flex; align-items: center; gap: 4px;
+      color: var(--text-secondary); font-size: 0.75rem;
+    }
+    .tts-bar .tts-speed input { width: 60px; accent-color: var(--accent); }
+    body.light .tts-bar {
+      background: rgba(245,245,240,0.95); border-top-color: #ddd;
+    }
+    body.light .tts-bar button { border-color: #999; color: #333; }
+    body.light .tts-bar .tts-info { color: #666; }
+
+    /* ─── Light mode ─── */
+    body.light {
+      --bg-primary: #f5f0e8;
+      --bg-secondary: #ebe5d9;
+      --bg-card: #fff;
+      --text-primary: #2a2a2a;
+      --text-secondary: #6a6a6a;
+      --chapter-border: #d5cfc3;
+      --accent: #2563eb;
+      --accent-dim: #6b9eff;
+      --gold: #8a6d2b;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      body { font-size: 15px; }
+      .chapter { padding: 50px 16px; }
+    }
+
+    /* ─── Scroll progress ─── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 200;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      width: 0%;
+      transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="progress"></div>
+
+  <header class="hero">
+    <h1 class="hero-title">初恋の花びら</h1>
+    <p class="hero-sub">GENERATED WITH LOCAL AI — OLLAMA + STABLE DIFFUSION</p>
+    <div class="hero-line"></div>
+  </header>
+
+  <nav class="nav-bar">
+    <span class="nav-title">目次</span>
+    <a href="#chapter-1">第1章</a><a href="#chapter-2">第2章</a><a href="#chapter-3">第3章</a><a href="#chapter-4">第4章</a><a href="#chapter-5">第5章</a><a href="#chapter-6">第6章</a><a href="#chapter-7">第7章</a><a href="#chapter-8">第8章</a><a href="#chapter-9">第9章</a><a href="#chapter-10">第10章</a>
+  </nav>
+
+  <div class="toc">
+    <h3>— 目次 —</h3>
+        <a href="#chapter-1" class="toc-item"><span class="toc-num">1</span><span class="toc-label">初夏の出会い</span></a>
+        <a href="#chapter-2" class="toc-item"><span class="toc-num">2</span><span class="toc-label">学園の日常</span></a>
+        <a href="#chapter-3" class="toc-item"><span class="toc-num">3</span><span class="toc-label">告白の瞬間</span></a>
+        <a href="#chapter-4" class="toc-item"><span class="toc-num">4</span><span class="toc-label">秘密の約束</span></a>
+        <a href="#chapter-5" class="toc-item"><span class="toc-num">5</span><span class="toc-label">別れと再会</span></a>
+        <a href="#chapter-6" class="toc-item"><span class="toc-num">6</span><span class="toc-label">遠距離の恋心</span></a>
+        <a href="#chapter-7" class="toc-item"><span class="toc-num">7</span><span class="toc-label">思い出の場所へ</span></a>
+        <a href="#chapter-8" class="toc-item"><span class="toc-num">8</span><span class="toc-label">友人との約束</span></a>
+        <a href="#chapter-9" class="toc-item"><span class="toc-num">9</span><span class="toc-label">再会と進化</span></a>
+        <a href="#chapter-10" class="toc-item"><span class="toc-num">10</span><span class="toc-label">永遠の初恋</span></a>
+  </div>
+
+  <div class="characters">
+    <h3>— 登場人物 —</h3>
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-name">美咲</div>
+        <div class="char-role">main</div>
+        <div class="char-desc">楽観的で優しい</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">拓人</div>
+        <div class="char-role">main</div>
+        <div class="char-desc">控えめだが芯の強い</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <main>
+
+    <section class="chapter" id="chapter-1">
+      <div class="chapter-header">
+        <span class="chapter-number">第1章</span>
+        <h2 class="chapter-title">初夏の出会い</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>初夏の空気はまだ緑が若い木々から微かな新芽の香りと共に、午後の公園に吹き込んでくる。青い芝生には黄色とピンク色の花々が咲いていた。太陽が傾くにつれて影ができ始め、その陰で少年少女たちがボールを蹴る音や笑い声があちこちから聞こえてきた。</p>
+
+        <p>美咲は公園のベンチに腰掛け、幼馴染みの友人たちと少し離れた場所にある柵越しに見つめていた。彼女たちは遊具で競争したり、ピクニックシートを広げてお菓子を分け合ったりしていた。「あの日みたいだね」という声が風に乗って届く。</p>
+
+        <p>「そうですね」美咲は微笑みながら返した。「みんな成長してるけど、何も変わってない気がします」</p>
+
+        <p>隣に座る拓人がため息と共に言葉を紡ぐ。</p>
+        <p>「確かに。でもこの先何歳になっても、ずっとこうやって一緒にいられるとは限らないよ」</p>
+
+        <p>美咲の肩が微かに揺れる。「そうだね」と静かな声で返す。</p>
+
+        <p>空は薄紫色に染まり始め、遠くの方から街灯りが点じてき始める。二人は何を話したのか覚えていないまま黙ったままであった。しかし、その沈黙には何故か温かいものが感じられた。</p>
+
+        <p>公園の出口へ向けて歩みだす美咲と拓人。</p>
+        <p>「ねぇ、これからどうしよう？」</p>
+        <p>「いつもの通りで良いよ」</p>
+
+        <p>ふたりは再び言葉を紡がなかった。ただ道に沿って並んで歩いていくだけだった。静かな夜風が肌寒く感じられたが、その中にもお互いの存在を感じる温もりがあった。</p>
+
+        <p>街灯りと月明かりが混じった薄暗さの中で歩み続けた二人。</p>
+        <p>「美咲」</p>
+        <p>「拓人」</p>
+        <p>同時に名前を呼んだのは偶然だった。しかし、声は互いに心地よい風のように柔らかかった。</p>
+
+        <p>公園から見える小さな道端の花々も夜になるにつれ色褪せかけていたが、その影の中には二人にとって特別な夏が始まる予感があった。</p>
+        <p>遠くで鳴き始めた虫たちと同様、静寂の中で美咲たちは新たな季節へと向かって歩みを進めていった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-2">
+      <div class="chapter-header">
+        <span class="chapter-number">第2章</span>
+        <h2 class="chapter-title">学園の日常</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>春の薄暮、校門が静寂に包まれていた。桜の花びらが夕闇の中で風に乗って舞い落ちる様子はまるで幻想的な雪景色だ。学園から流れる鐘の音は遠くへと消え入り、代わって鳴り響いたのは、スニーカー底がアスファルトを叩く音だけだった。</p>
+
+        <p>美咲と拓人は静かな歩みに重ねた影を見つめながら、それぞれ別の道に向かおうとしている友人たちの声色を感じ取る。しかし二人は一旦立ち止まり、視線だけで意味深な合図を交わした後、左手にある小さなカフェへ向かい始めた。</p>
+
+        <p>店内には優しく甘い香りが漂っていた。窓ガラスに映るのは外から入ってくる薄明かりと桜の花びら。カウンター横でバイトをする幼馴染みたちとの会話は短くも温かな笑顔を含んでいた。「今夜は何するんだい？」拓人が美咲を見ると、彼女は少し迷う素振りを見せた後、「またここに来る」と小さく答えた。</p>
+
+        <p>カフェの外では桜が風に揺れ続けている。室内に戻った二人はカウンターで紅茶を注文し、互いの眼差しの中で時間がゆっくりと進んでいくのを感じていた。「最近忙しい？」美咲から切り出される。彼女には答えるのが難しい質問だった。</p>
+
+        <p>「ああ…まあね」拓人は言葉を選ぶように少しだけ沈黙を挟んだ後、口を開いた。「でも一緒にいると楽だよ」</p>
+
+        <p>静かな会話の間隔を埋めるのは耳に心地良い音だけ。それは紅茶が注がれる時の柔らかい水滴の音やカウンター奥から聞こえるラジオ放送の雑踏感、そして外から入る微風と共に揺れて落ちていく桜の葉のサ行。「そうだよね」美咲は同意し、「でもその忙しさって何？」と少し意地悪な口調で言った。</p>
+
+        <p>二人が話す間、窓ガラスに映るのは夜の始まりを告げる街灯や歩く人々のシルエット。それぞれ心の中に思い描かれた未来への道筋を見つけようとするように見える。「あそこに住んでいるあの子もきっと」拓人は遠ざかる友人達を見つめながら言った。</p>
+
+        <p>「何？」美咲が首を傾げて尋ねると、「何も…ただ、この先、どんなに年齢が上がろうとも一緒にいられるとは限らないって思ったらさ」と彼は視線を下げる。「でも今はここにいるよね」</p>
+
+        <p>静けさの中で二人の言葉が重なる。外から聞こえる通りの音や桜の花びらの舞う様子、そして店内でかすかな会話が響き渡る中、「そうだよ」と美咲は小さく答えた。「だから今日もここに来れたんだ」</p>
+
+        <p>二人は紅茶を啜りながら互いを見つめ合う。外からは夜空へと色濃くなる桜の木々、そしてカフェから聞こえる静かな音が重なり合っているように見えた。</p>
+
+        <p>美咲は窓ガラスに向かって微笑む。「これからも一緒に過ごせるよね？」拓人が頷くことなく、彼女の言葉に答えずともその表情と眼差しで全てを語っていた。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-3">
+      <div class="chapter-header">
+        <span class="chapter-number">第3章</span>
+        <h2 class="chapter-title">告白の瞬間</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>春の訪れと共に、海辺には爽やかな風と花びらが舞う。潮騒が遠くに聞こえ、細かい砂粒が陽光でキラリと輝いている。「もうすぐゴールデンウィークだね」と美咲は言った。</p>
+
+        <p>拓人が微かに笑った。</p>
+        <p>「そうだな」</p>
+
+        <p>二人の足音だけが波打ち際に響き渡る。青い空と深い海が織り成す模様は、静けさそのものだった。</p>
+
+        <p>「一緒にどこかに行かない？」</p>
+        <p>美咲が囁くように尋ねた。「どこでもいいよ」拓人は頷いた。</p>
+        <p>風が髪を揺らし、波の音色と砂粒が肌に触れ合う。遠くで鳴る鳥の声も静寂の中に溶け込んでいく。</p>
+
+        <p>「拓人...」</p>
+
+        <p>美咲は深呼吸をしてから言葉を探した。「僕について行くよ」</p>
+        <p>その返事だけが、二人を包む無重力のような時間が流れる。</p>
+        <p>美咲は手に汗を握り、「君のことが好きになったんだ」と告げた。</p>
+
+        <p>海辺で舞う花びらもまた、風に乗って揺れ動き、静けさの中で音もなく散っていくように。拓人は長い沈黙の中、青い目を見開いて美咲と向き合う。</p>
+        <p>波打ち際から吹き上がった水しぶりが二人の間を横切るように飛び跳ねる。</p>
+
+        <p>「僕も...」</p>
+        <p>しかし言葉はそこで止まり、風に紛れてしまう。「でも」「だけど」と拓人は何度も口を開く。美咲は何度もうなずいた。</p>
+        <p>海辺では日暮れてきた。青が薄くなり、紫と橙色の混じり合う空へと移ろい始める。</p>
+
+        <p>「大丈夫だよ」美咲は言った。「君がどれだけ大切か知ってるから」</p>
+
+        <p>拓人は静かな息を吐き、「これからも一緒にいて」と口に出した。</p>
+        <p>二人の間には言葉よりも深く、強く揺るがない絆があった。それは春風のように優しく触れ合い、砂浜に浮かぶ微光りと交差する。</p>
+
+        <p>日が暮れていく中で、美咲は拓人の手を握った。「大丈夫だよ」ともう一度言った。</p>
+        <p>海辺の音色、遠くへ向けて続く波打ち際。二人が歩み続けた道の先にはまだ空があった。</p>
+
+        <p>潮風に揺らぐ髪と目線だけが、その瞬間の静けさを語りかけてくる。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-4">
+      <div class="chapter-header">
+        <span class="chapter-number">第4章</span>
+        <h2 class="chapter-title">秘密の約束</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>秋の深まりと共に、風が冷たくなった。木々に落ち葉が積もり始め、土と腐葉土の湿り気ある匂いが立ち込めていた。公園のベンチは静かで、夕暮れ時にも関わらず薄暗さを帯びた空には白雲が浮かんでいるだけだった。</p>
+
+        <p>美咲と拓人は手紙のように交差する視線を持ち続けながら歩み寄る。それぞれが抱える思いを口に出すことはまだ難しい様子で、ベンチの上に座り込んだ二人は互いを見つめ返したまま沈黙の中に身を置いていた。</p>
+
+        <p>「美咲さん…」</p>
+
+        <p>拓人は自分の声に戸惑ったように息を飲む。「好きだ」という言葉が舌先に出た瞬間だった。しかし、その代わりに口から零れたのは、</p>
+
+        <p>「約束、守らなきゃならないんだよね」</p>
+        <p>彼の視線は美咲ではなく、遠くへと向けられていた。</p>
+
+        <p>風音と共に聞こえてきたのは公園を囲む古い柵越しに渡ってくる近所の人々の声だけ。それが二人を包み込む静寂の中で不自然さを感じさせた。それでも、美咲は何も言わずにただ頷いた。</p>
+
+        <p>「拓人君…」</p>
+
+        <p>青空が夕闇と共に薄れゆく間隙を見つめながら、その小さな口から出る音は一層小さくなっていた。「私達を待っている人がいるんだよ」</p>
+        <p>彼女の声には確信があった。それは二人の間に流れる感情よりも強い何かだった。</p>
+
+        <p>「約束…」</p>
+
+        <p>彼が再び言葉を探したように視線だけ動かし、美咲に告げる間も無く、</p>
+
+        <p>「秘密にするね」</p>
+
+        <p>微笑みながらもう一方から補完されてしまった。</p>
+        <p>互いを見つめ合う二人は、手を握り合ってその時刻の流れの中に新たな約束を持ち込んだ。</p>
+
+        <p>その後、彼らが歩き出す景色には様々な色と形があった。空気中の水滴に太陽光が散乱して七色を作り出し、街灯から溢れ出る柔らかな明かりは細い通りを優しく照らしていた。</p>
+        <p>そしてその中で二人の影だけが揃って歩み続ける。</p>
+
+        <p>彼らの間にはまだ言葉では語れない秘密があった。しかし同時にそれは新たな約束であり、絆を深める契機でもあった。</p>
+        <p>公園に広がる秋色の中での出来事は、美咲と拓人の心の中に鮮やかな色として残っていた。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-5">
+      <div class="chapter-header">
+        <span class="chapter-number">第5章</span>
+        <h2 class="chapter-title">別れと再会</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>冬の訪れとともに、風が冷たくなってきた。公園の木々から落ち葉があちこちに積もる。日差しが薄ら寒いくらいで、美咲と拓人は手袋をして歩く。通り過ぎた古いビル群からは工事現場特有の匂いが漂う。</p>
+
+        <p>「ここ最近、なんだか冬感があるよね」と言ったとき、美咲は懐かしい光景を思い出す。秋風の中で二人で約束したあの日。拓人は今もその時と同じように、「あいつと会いたかった」そう言って目を見開く。</p>
+
+        <p>公園の向こう側にある古い家並みが冬に染まった姿を見せていた。窓から漏れる明かりは、静かな夜を温かさで溶かしているようだった。「あの日以来、何度もここに戻ってきたけど……」</p>
+
+        <p>「また会いたいな」と美咲もつぶやく。</p>
+
+        <p>公園の片隅には小さな池があり、その水面に冬が映っていた。枯れ草が風に乗って舞う。ふと目に入った茶色い帽子をかぶった少年は、かつて二人で過ごしたあの頃から変わらないような気がする。しかし、美咲自身ももう高校一年生。</p>
+
+        <p>「あの時」と切り出すときの彼女を見つめると、「今度こそ約束を守るよ」拓人は固い口調で告げる。「でもね、あたしは……」</p>
+
+        <p>言葉が詰まる。冬風に包まれながら話すのは少し難しいようだった。</p>
+
+        <p>「大丈夫だよ。美咲も同じ気持ちだから」と優しく笑うと、手を握る。その手の温もりには確かな力強さがあった。「約束って、大切なことなんだよね」拓人はそう語りつつ、公園の中の木々を見上げた。</p>
+
+        <p>寒い夜風が街灯から漏れ出す光に触れる度に揺らぐ影を作る。通り過ぎる人々の気配と音だけがここにある声だ。「あいつ」という言葉は、二人にとって特別な意味を持つようになっていった。遠くで聞こえる列車の汽笛。</p>
+
+        <p>「もうすぐ春になるね」</p>
+
+        <p>美咲はそう言って空を見上げた。冬枯れした木々から見える青い部分を眺めながら、「再びここに戻ってくること」その思いが胸に広がっていく。「また会うよ」と約束すると、彼女は微笑んだ。</p>
+
+        <p>「あの頃と変わらないな」</p>
+
+        <p>静かな風が二人の間を取り囲む。冬の夜には、過去と現在が繋がる感覚があった。</p>
+
+        <p>池の水面では微かに波立つ音だけが響き、遠くへ続く家並みはその光を吸い込むように黒々とした影となっていた。「もうすぐ春になるんだから」と美咲は再び言葉に出す。冬風もやわらぐ。</p>
+
+        <p>二人の視線が交差した瞬間、思い出に埋め尽くされる公園の中には今度こそ新たな約束が始まったようだった。</p>
+        <p>「そうだね」拓人は頷き、「また会おう」と改めて固い口調で言った。「春になるまで、ずっとここから遠ざからないようにする」</p>
+
+        <p>冬の夜が静か過ぎて誰もいないような錯覚を起こす公園。二人は再びその風景へと溶け込んでいった。</p>
+        <p>「別れ」</p>
+        <p>そして、「再会」</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-6">
+      <div class="chapter-header">
+        <span class="chapter-number">第6章</span>
+        <h2 class="chapter-title">遠距離の恋心</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>冬の終わり、公園がまだ凍てつく頃。春に溶け出す雪解け水の音と微かな花粉の匂いが風に乗って漂う。日差しが弱々しくも優しく美咲の肌を撫でる。</p>
+
+        <p>郵便局では朝早くから人波が流れ、中には手紙を受け取るために列を作る人々がいた。「あなたの春になるまで」その言葉は封筒の中で静かに揺れていて、美咲と拓人の間にある約束を象徴していた。封を開けるときの小さな音だけが心地よく響き渡る。</p>
+
+        <p>「また手紙だね」という声と共に郵便受けから取り出したそれは、透けて見える線路先端で春を探している様な青い空と繋がったような色だった。「これを見て思うことがあったらいつでも書き返してね」拓人の優しい言葉は紙面にしっかりと刻まれている。</p>
+
+        <p>美咲の部屋には冬も終わりかけた風景と同じように暖炉から昇る煙のような白い封筒たちが並ぶ。彼女は一枚ずつ丁寧に開けて、その手紙を読み耽りながら窓際に立って外を見渡す。「春になるまでここから遠ざからない」という約束の言葉は文字通りのものではなかった。</p>
+
+        <p>一方で拓人は都会の中で新たな日々を送る。彼が住む小さなアパートメントは街灯に囲まれ、夜空には星が瞬きながら静かに光っていた。「あなたの春になるまで」それが冬深く、雪が降りしきる中でも暖かな灯火のように心地よく照らす。</p>
+
+        <p>拓人が送った手紙を受け取ると美咲の目は濡れてくる。彼女の部屋からは遠くで聞こえる鳥たちの鳴き声と共に春を告げる花々の色が目に飛び込んで来る。「あなたの冬もまた終わりに近づいているね」という返事を書こうとして、ペン先が紙面から浮かぶ。</p>
+
+        <p>封筒の中には言葉と写真だけが入っている。それは二人にとって大切な日々や場所を象徴するもので、「春になるまでここから遠ざからないように」その約束は今も色褪せることなく続く。「あなたの冬終わる頃、私も出会う春が始まる」という美咲の言葉と共に新たなページが開かれる。</p>
+
+        <p>郵便局には再び人々が訪れ、封筒たちが新たな旅を始める。日差しと雪解け水音の中で二人は通信手段を通じてお互いに手紙や写真を送り合って、その中で大切な思い出と共に新しい絆を探していた。</p>
+
+        <p>冬の終わりから春に向かう風の中、美咲と拓人はそれぞれ異なる場所でも共通の想いを紡いでいった。それは遠く離れた二人が互いに近づいていくように見えた。「あなたの春になるまで」それがただ言葉だけでなく心の中に広がる一つの旅だったから。</p>
+        <p>郵便局は再び静かになり、封筒たちもまた新たな道程に出発するための準備を始めていた。美咲と拓人はそれぞれ異なる場所でも共通の絆を探し続ける。その中で彼らの心に冬が終わり春が始まる予感がただひそやかに広がっていく。</p>
+        <p>手紙は新たな約束を秘めたまま、封筒の中で静寂の中に浮かび上がっていた。風景の中から聞こえる鳥たちの声と雪解け水音がそれを物語る。</p>
+
+        <p>冬も終わりかけた公園では、美咲と拓人の記憶が新たに花開く春への道しるべとなりつつあった。</p>
+        <p>遠い夜空を見上げると星々は静かに瞬いていた。それらの光と共に手紙を読み返す二人。その中で彼らの心の中には新たな季節が始まる予感がただひそやかによみがえってくる。</p>
+
+        <p>春になるまで、それはもう始まっていた。</p>
+        <p>風の中で美咲と拓人の約束は静かながらも強く揺れていた。公園では雪解け水音と共に冬からの旅路がようやく終わりかける頃に、彼らの新たな物語が始まった。</p>
+        <p>郵便局から届く封筒たちはその光を新たにして再び飛んでいくだろう。それは二人にとって大切な日々と場所を繋ぐもので、「春になるまでここから遠ざからないように」その約束は今も色褪せることなく続く。</p>
+
+        <p>風が吹き、公園の木々に雪解け水音と共に新たな葉が舞い散る。</p>
+        <p>美咲と拓人はそれぞれ異なる道でも共通の想いを探し続ける。それはただ言葉ではなく心の中に広がるもので、「あなたの春になるまで」それが二人にとって一つの旅だったから。</p>
+
+        <p>郵便局は再び静かになり、封筒たちもまた新たな道程に出発するための準備を始めていた。</p>
+        <p>その中には美咲と拓人の約束が新たに花開く春への道しるべとなりつつあった。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-7">
+      <div class="chapter-header">
+        <span class="chapter-number">第7章</span>
+        <h2 class="chapter-title">思い出の場所へ</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>桜の蕾が膨らみ始め、春めいていた。暖かな日差しと微かな風に混じり合う花粉の匂い。公園の中では子供たちが笑い声を上げながら砂場で遊んでいる。</p>
+
+        <p>「ここさ」と拓人が言った。「一年前の今頃もこんな感じだったよね」</p>
+
+        <p>美咲は頷き、青みがかった瞳を見開く。</p>
+        <p>「そうね」</p>
+        <p>彼女の視線の先には一本桜があり、その枝から春風に誘われるように小さな蕾が膨らんでいた。</p>
+
+        <p>二人とも黙り込む。時折聞こえる鳥のさえずりと公園を満たす穏やかな光。</p>
+        <p>「あのね」と拓人が続ける。「ここで写真撮ったんだよ」</p>
+
+        <p>美咲は頷くだけで返事をしない、深呼吸をしてから「そうだったよね」</p>
+        <p>二人で手を取り合い、その場所に立つ。桜の木が揺れ動きながら春風を受け入れている。</p>
+        <p>「今度こそ二人で」と彼女は笑顔を見せる。「あの写真を撮りに行こう」</p>
+
+        <p>青空と新緑との間から漏れる光が、彼らの姿影を作り出す。</p>
+
+        <p>美咲がスマホを取り出し、その画面に映る風景を選んで選ぶ。</p>
+        <p>「待って」拓人が彼女の肩越しに見せられたスクリーンを覗く。「もっと桜の木と近くで」</p>
+
+        <p>二人とも静か。僅かな間隔の後、再び笑顔を見せる。</p>
+
+        <p>公園の中では子供たちが砂場での遊びから一歩離れたところで、ボールゲームが始まる音と共に動き出す。</p>
+        <p>「じゃあこうしよう」と拓人が提案する。「手紙の中で約束した通りに」</p>
+
+        <p>彼女は頷く。微かな春風と桜の香りを肌で感じながら。</p>
+
+        <p>二人とも再び静かになる。桜が揺れて、小さな葉っぱが公園の地面に舞い降りる。</p>
+        <p>「ねぇ」拓人が美咲を見つめ、「あの写真と同じように」と微笑む。「今度は本当に誰もいない時間を見つけよう」</p>
+
+        <p>彼女は頷き返す。</p>
+
+        <p>暖かな日差しが二人を包み込む。静寂が続き、桜の木が春風と共に揺れる。</p>
+        <p>「それじゃあ」美咲は優しく微笑む。「その約束通りにするわよ」</p>
+        <p>拓人が頷いて、「本当に」と返す。</p>
+
+        <p>彼女が携帯電話を手にして、「今度こそね」</p>
+
+        <p>公園の中では桜の蕾が花びらを開き、柔らかな春風に揺れていた。</p>
+        <p>二人は互いを見つめ合いながらその光景を受け入れる。青空と新緑との間から漏れる光の中に浮かぶ彼らの姿影。</p>
+
+        <p>路地の隅で鳴り響く自転車ベルが、静寂を断ち切ったように聞こえる。</p>
+        <p>公園の中では桜の花びらが舞い踊る。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-8">
+      <div class="chapter-header">
+        <span class="chapter-number">第8章</span>
+        <h2 class="chapter-title">友人との約束</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>春の空気は甘酸っぱさと新緑の香りに満ちていた。日差しはやわらかで、青い天空には無数の雲がゆっくりと漂っている。校舎からの金属的な音が響き渡る中、美咲と拓人は友人たちと共に学校に向かい歩んでいた。</p>
+
+        <p>「今日も暑くない？」</p>
+        <p>「うん、もう夏が始まった気分だね」</p>
+
+        <p>二人の声は穏やかな笑みに包まれていた。桜並木を通り過ぎると、すぐに白い建物が視界いっぱいになる。校門には既に多くの生徒たちが集まっていた。</p>
+
+        <p>彼らが友人たちと合流した時、「一緒に卒業式に行こうって」と拓人が話す。「あいつも来る？」</p>
+        <p>「うん、もちろん」</p>
+
+        <p>美咲は頷きながら鞄を揺らし、桜色のマスク越しに笑顔を見せる。風に乗る微かな桜の香りが鼻腔を通った。</p>
+
+        <p>静寂の中で校長先生が始まる挨拶。「皆さんの三年間の努力と成長を感じて嬉しい」</p>
+        <p>「今日からそれぞれ新たな道を歩んでいくだろう、大切なものを持ち続けて」</p>
+
+        <p>青い空に光があふれ返るほど晴れた日。美咲は隣で手紙を開こうとする友人の小春子を見る。「君これからどうするの？」と聞かれると、「まだ決めてない」と静かな微笑みを浮かべた。</p>
+        <p>「拓人くん、これからの進路考えてる？」</p>
+
+        <p>彼女が聞くと、拓人は「今は医療技術者を目指してる」などと答える。その言葉に美咲は頷きながら空を見上げる。「私たちの約束も大切なものだね」と内心で囁く。</p>
+
+        <p>卒業生たちの一斉立ち上がりと共に、教室から響き渡った合唱が校舎全体を包む。「青い空の下で」。その旋律は微かな風に乗って広場に流れ込んでくる。</p>
+        <p>「君たちは皆、新しい世界へと向かうんだね」</p>
+
+        <p>美咲は涙ぐみそうになりながらも笑顔を保つ。</p>
+
+        <p>卒業証書が配られる瞬間。「私たちの約束、覚えてる？」</p>
+        <p>「もちろん。桜の下で再び写真を撮ろうって約束したよね」</p>
+
+
+        <p>雨粒が落下する音と混じり合うように美咲は微笑む。</p>
+        <p>「さあ、また一つ新たな章が始まるんだ」</p>
+
+        <p>拓人は静かに頷き、「約束通りにしてあげるから」と答える。その声には決意があった。</p>
+
+        <p>光の差し込む教室で友人たちが笑い合っている。「君たちはこれから素晴らしい未来を切り開いていくんだろう」</p>
+        <p>「美咲と拓人、二人とも頑張ってね」</p>
+
+        <p>手紙の中身を見終えた小春子は、「またいつか会おう」という言葉と共に鞄にしまう。彼女が立ち上がると微風が吹き抜けた。</p>
+
+        <p>卒業式の終わりを告げる号令。「皆さん、これからの人生で素晴らしいことを成し遂げられるよう応援しています」</p>
+
+        <p>美咲は振り返る拓人を見つめ、「約束通り、また桜並木での写真撮ろうね」と微笑む。</p>
+        <p>「もちろんだ。私たちの大切な思い出を残そう」</p>
+        <p>「君の笑顔と、この晴れた空が一緒に永遠に続くように」</p>
+
+        <p>光が淡く揺らぐ教室から外へ出ると微かな風が吹き抜ける。「二人ともこれからどんな道を選んでもね」「友達だよって約束は忘れないで」</p>
+        <p>「もちろんだ。大切な思い出を大切にしていこう」</p>
+
+
+        <p>暖かい春の日差しに包まれた桜並木。</p>
+        <p>美咲と拓人は、新たな旅路へと歩き出した。</p>
+        <p>彼らの足元には小さな花びらが舞うように散っていた。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-9">
+      <div class="chapter-header">
+        <span class="chapter-number">第9章</span>
+        <h2 class="chapter-title">再会と進化</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>桜の花びらが春風に乗って舞う公園。朝露に濡れた葉がきらめいている。遠くで子どもたちの笑い声と木製遊具の音が響いてくる。美咲はベンチで本を読んでいる。</p>
+
+        <p>「久しぶりだね、拓人」</p>
+
+        <p>振り返ると、青い目が眩しい少年が立ち尽くしている。春日のような爽やかな光線に包まれている彼には、何か新しいものが宿っているように思えた。「そうだよ、美咲」と笑顔で答えると、二人は昔と同じ公園の木陰へ移動する。</p>
+
+        <p>「今年は進学校だね」</p>
+
+        <p>拓人の声が風に乗って聞こえてくる。その言葉から、彼の中に膨らんでいた野心が感じられた。「うん、ずっと夢だった医大受験に向けて頑張るよ」美咲も笑顔で返す。</p>
+
+        <p>「お前は？」</p>
+
+        <p>「僕ねえ…就職活動だな。父親の会社を継ごうと決めてさ」</p>
+
+        <p>それぞれが新たな道を選ぶことについて、二人は長い間語り合った。「でも」と言葉を挟む美咲、「別に迷ってるわけじゃないよ」彼女は瞳を見つめ返す。</p>
+
+        <p>「拓人も頑張ってね。医者になったらまた一緒に写真撮ろう」</p>
+
+        <p>再び約束の桜並木へと向かう二人。「あいつがいたから、ここが懐かしいんだよね」と美咲は口にしながら歩く足元を見つめる。</p>
+
+        <p>風に乗った桜の香りと共に、遠くで春の雨粒が花弁を揺らす音。再会と別れ、進化と出会い…それは新たな旅路が始まる瞬間だった。</p>
+        <p>公園の桜並木は人々の思い出とともに色づき始める。</p>
+
+        <p>「美咲」拓人の声が風に届く。「君もいつか一緒に写真を撮ろう」</p>
+
+        <p>二人それぞれが目指す道へと進み、再び別れる。しかし、その手から離れた花びらは空高く舞い上がり、新たな旅路の始まりとなる。</p>
+        <p>公園には静寂だけが残る。</p>
+
+        <p>風に揺れていた桜並木の枝先で、最後の一輪が零れ落ちていく。</p>
+      </div>
+    </section>
+    <section class="chapter" id="chapter-10">
+      <div class="chapter-header">
+        <span class="chapter-number">第10章</span>
+        <h2 class="chapter-title">永遠の初恋</h2>
+      </div>
+      
+      <div class="chapter-body">
+        <p>春の訪れと共に、公園の桜並木が淡いピンク色に染まった。風が通り抜けるたび、小さな花びらが舞うように宙を浮かんでいく。拓人の青い眼差しが美咲の方へと向けられると、彼女の胸には複雑な感情の渦巻きが始まる。</p>
+
+        <p>「桜の木は春になると必ず満開になるよね」</p>
+        <p>微かな風が通り抜ける音に合わせて、花びらが揺れる。彼ら二人にとってこの公園は特別な場所で、思い出の詰まった空間だ。</p>
+        <p>美咲はゆっくりと深呼吸をし、その匂いが彼女の中に染み込んでいく。「そうだね…でも、人も変わっちゃうから」</p>
+
+        <p>「変わらないこともたくさんあるよ」</p>
+        <p>拓人は静かに語りかけた。春日のように明るい空の下で、二人の影は微妙な角度で重なる。</p>
+
+        <p>花びらが風に乗って彼女の方へと舞ってくる。「桜見てると…自分の気持ちも咲いていく気がする」</p>
+
+        <p>「それは美咲らしいね」</p>
+        <p>拓人は笑顔を見せてから視線を上げる。その瞳には、遠くの空を眺めているようだ。</p>
+        <p>「でもさ、どんなに風が強くても花びらは舞い上がるだけなんだよ…それが桜ってもの」</p>
+
+        <p>微かなる光が彼ら二人を取り巻き、日陰と明かりが交錯する場所で話は進む。「拓人さんも変わっちゃうよね」</p>
+        <p>美咲の言葉に、静かな沈黙が訪れる。</p>
+        <p>「変わるよ。でも…その変化が美咲とも一緒なんだ」</p>
+
+        <p>二人は何処までも続く桜並木を見つめながら歩みを進める。「そうね」と彼女は返した。</p>
+
+        <p>春風と共に桜の花びらもまた、静かに揺れ続けている。</p>
+        <p>彼ら二人の約束とは、それぞれが変わる事。しかし同時にその変化の中に相手との絆を深めていくことでもある。</p>
+        <p>「今日からお互い頑張ろうね」</p>
+        <p>美咲は小さく微笑んだ。「拓人さんも一緒だよ」</p>
+
+        <p>桜並木の中で風と花びらの共鳴が聞こえる。春の訪れと共に、新しい約束が始まる。</p>
+        <p>二人は何故か静かな笑顔を浮かべたまま、「そうだね」と僅かに声を重ね合う。</p>
+
+        <p>彼らがそれぞれ異なる道を選んだとしても、永遠に続く初恋という花びらは今後も舞い続けるだろう。それは風に乗って無数の場所へと届けられ、新たな旅立ちと共にその色鮮やかな景色を作り出す。</p>
+        <p>春日のような明るさを背負った公園の桜並木では、美咲と拓人が最後の約束を交わす。「またね」と彼女は静かに言った。</p>
+
+        <p>風が再び吹き始めると同時に、彼ら二人それぞれ異なる道を選んでしまう。しかし、それは絶対的な別れではなく、新たな始まりでもある。</p>
+        <p>花びらと共に揺れる二人の影が公園から遠ざかる。「桜見てたら…あっという間に夏になるね」</p>
+        <p>その言葉は淡い春風に乗って消え失せるかのように聞こえる。しかし、それは美咲と拓人の初恋を紡ぐ新たな物語への序章でもあった。</p>
+        <p>余韻だけが残る公園の桜並木の中で、二人それぞれ異なる旅立ちが始まるのである。</p>
+
+        <p>遠くで、もう一つの春日が昇り始めている。その光は彼らに未来へ向けて進む力を与えていたようにも思える。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>初恋の花びら</p>
+    <p>Generated locally with Ollama + Stable Diffusion</p>
+  </footer>
+
+
+  <button class="tts-fab" id="ttsFab" onclick="ttsToggle()" title="Read aloud">
+    <span id="ttsFabIcon">&#x1f50a;</span>
+  </button>
+  <div class="tts-bar" id="ttsBar">
+    <button onclick="ttsPause()" id="ttsPauseBtn">&#x23f8;</button>
+    <button onclick="ttsStop()">&#x23f9;</button>
+    <button onclick="ttsPrev()">&#x23ee;</button>
+    <button onclick="ttsNext()">&#x23ed;</button>
+    <span class="tts-info" id="ttsInfo">Ready</span>
+    <span class="tts-speed">
+      <input type="range" id="ttsSpeed" min="0.5" max="2.0" step="0.1"
+             value="1.0" onchange="ttsSetSpeed(this.value)" />
+      <span id="ttsSpeedVal">1.0x</span>
+    </span>
+  </div>
+
+  <button class="mode-toggle" onclick="toggleMode()">🌗 表示切替</button>
+
+  <script>
+    // Reading mode
+    function toggleMode() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('mode') === 'light') document.body.classList.add('light');
+
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    // === TTS (Web Speech API) ===
+    const synth = window.speechSynthesis;
+    let ttsChs = [], ttsI = 0, ttsRate = 1.0, ttsOn = false, ttsPd = false;
+
+    document.querySelectorAll('.chapter').forEach((sec, i) => {
+      const b = sec.querySelector('.chapter-body');
+      const t = sec.querySelector('.chapter-title');
+      if (b) ttsChs.push({
+        title: t ? t.textContent : ('Ch.' + (i+1)),
+        text: b.textContent.trim(), el: sec
+      });
+    });
+
+    function ttsToggle() {
+      if (!synth) { alert('Speech not supported'); return; }
+      if (ttsOn) { ttsStop(); return; }
+      const sy = window.scrollY + window.innerHeight / 3;
+      let cl = 0;
+      ttsChs.forEach((c, i) => { if (c.el.offsetTop <= sy) cl = i; });
+      ttsI = cl; ttsOn = true; ttsPd = false;
+      document.getElementById('ttsFab').classList.add('speaking');
+      document.getElementById('ttsFabIcon').innerHTML = '&#x23f9;';
+      document.getElementById('ttsBar').classList.add('active');
+      _ttsRead();
+    }
+
+    function _ttsRead() {
+      if (ttsI >= ttsChs.length) { ttsStop(); return; }
+      synth.cancel();
+      const ch = ttsChs[ttsI];
+      document.getElementById('ttsInfo').textContent = ch.title;
+      ch.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Split by Japanese sentence endings for reliable playback
+      const sents = ch.text.match(/[^。！？
+]+[。！？]?/g) || [ch.text];
+      let si = 0;
+
+      function next() {
+        if (!ttsOn) return;
+        if (si >= sents.length) {
+          ttsI++;
+          if (ttsI < ttsChs.length) setTimeout(_ttsRead, 800);
+          else ttsStop();
+          return;
+        }
+        const u = new SpeechSynthesisUtterance(sents[si].trim());
+        u.lang = 'ja-JP'; u.rate = ttsRate;
+        const vs = synth.getVoices();
+        const jv = vs.find(v => v.lang && v.lang.startsWith('ja'));
+        if (jv) u.voice = jv;
+        u.onend = () => { si++; next(); };
+        u.onerror = () => { si++; next(); };
+        synth.speak(u);
+      }
+      next();
+    }
+
+    function ttsPause() {
+      if (!ttsOn) return;
+      if (ttsPd) {
+        synth.resume(); ttsPd = false;
+        document.getElementById('ttsPauseBtn').innerHTML = '&#x23f8;';
+      } else {
+        synth.pause(); ttsPd = true;
+        document.getElementById('ttsPauseBtn').innerHTML = '&#x25b6;';
+      }
+    }
+
+    function ttsStop() {
+      synth.cancel(); ttsOn = false; ttsPd = false;
+      document.getElementById('ttsFab').classList.remove('speaking');
+      document.getElementById('ttsFabIcon').innerHTML = '&#x1f50a;';
+      document.getElementById('ttsBar').classList.remove('active');
+      document.getElementById('ttsInfo').textContent = 'Ready';
+      document.getElementById('ttsPauseBtn').innerHTML = '&#x23f8;';
+    }
+
+    function ttsNext() { if (ttsOn && ttsI < ttsChs.length - 1) { ttsI++; _ttsRead(); } }
+    function ttsPrev() { if (ttsOn && ttsI > 0) { ttsI--; _ttsRead(); } }
+    function ttsSetSpeed(v) {
+      ttsRate = parseFloat(v);
+      document.getElementById('ttsSpeedVal').textContent = v + 'x';
+    }
+    if (synth) synth.onvoiceschanged = () => synth.getVoices();
+
+  </script>
+</body>
+</html>
